@@ -9,10 +9,13 @@ contract ConcertNFTicket is ERC721 {
 
     Counters.Counter private ticketIds;
 
+    enum ConcertState { NOT_STARTED, STARTED, ENDED }
+
     address public organiser;
     address public minter;
     uint256 private ticketPrice;
     uint256 private totalSupply;
+    ConcertState private concertState;
 
     constructor(
         string memory _name,
@@ -27,9 +30,15 @@ contract ConcertNFTicket is ERC721 {
         totalSupply = _totalSupply;
         organiser = _organizer;
         minter = _minter;
+        concertState = ConcertState.STARTED;
     }
 
-    function safeMint(address _to) public onlyMinter returns (uint256) {
+    modifier hasNotEnded() {
+        require(concertState != ConcertState.ENDED);
+        _;
+    }
+
+    function safeMint(address _to) public onlyMinter, hasNotEnded returns (uint256) {
         require(ticketIds.current() <= totalSupply, "No tickets available");
         ticketIds.increment();
         uint256 ticketId = ticketIds.current();
