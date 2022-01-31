@@ -42,14 +42,19 @@ $ git clone https://github.com/CryptoUGuy/awesome-nft-resources.git
 $ cd boilerplate
 
 $ npm install
+$ npm install @openzeppelin/contracts
 ```
 
 ## Available commands
 
 ```shell
+$ npm run chain # Runs a local testnet
+
 $ npm run compile # Compile smart contracts
 
 $ npm run test # Run tests
+
+$ npm run deploy # Deploys the contracts to the local chain
 
 $ npm run lint:check # Check typescript linting
 
